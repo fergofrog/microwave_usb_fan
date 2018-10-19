@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from usbfan.protocol import Colour, Column, Message, Program
+from usbfan import Colour, Column, Message, Program
 
 
 class TestColumn(TestCase):
