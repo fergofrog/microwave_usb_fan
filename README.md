@@ -5,6 +5,11 @@ Communication occurs using USB HID reports as a transport. This library uses
 [hidapi](https://pypi.org/project/hidapi/) to do this across Linux, macOS,
 FreeBSD and Windows.
 
+## Installation
+```sh
+pip install microwave-usbfan
+```
+
 ## Example Implementation
 ### Two Text Messages
 ```python
