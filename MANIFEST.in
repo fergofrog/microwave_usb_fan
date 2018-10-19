@@ -1,0 +1,6 @@
+include README.md
+include setup.py
+include requirements.txt
+recursive-include usbfan *.py
+recursive-include usbfan/fonts *.ttf
+recursive-include tests *.py
