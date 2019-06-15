@@ -1,4 +1,4 @@
-from os.path import basename, join
+from os.path import dirname, join
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -9,7 +9,7 @@ class TextMessage(Message):
     def __init__(self, text: str):
         # Open the font, create a blank image and an ImageDraw object
         fnt = ImageFont.truetype(
-            join(basename(__file__), 'fonts', 'Hack-Regular.ttf'))
+            join(dirname(__file__), 'fonts', 'Hack-Regular.ttf'))
         img = Image.new('RGB', (Message.MAX_COLUMNS, Column.PIXELS))
         d = ImageDraw.Draw(img)
 

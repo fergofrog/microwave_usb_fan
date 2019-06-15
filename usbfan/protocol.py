@@ -68,6 +68,30 @@ class Message:
     MAX_COLUMNS = 144
     COLUMN_GROUPS = 8
 
+    OPEN_LEFT_RIGHT=0
+    OPEN_RIGHT_LEFT=1
+    OPEN_UP_DOWN=2
+    OPEN_DOWN_UP=3
+    OPEN_FROM_MIDDLE=4
+    OPEN_TO_MIDLE=5
+    OPEN_ALL=6
+    OPEN_ANTICLOCKWISE=7
+    OPEN_CLOCKWISE=8
+
+    MIDDLE_ANTICLOCKWISE=0
+    MIDDLE_CLOCKWISE=1
+    MIDDLE_FLASH=2
+    MIDDLE_REMAIN=3
+
+    CLOSE_RIGHT_LEFT=0
+    CLOSE_LEFT_RIGHT=1
+    CLOSE_DOWN_UP=2
+    CLOSE_UP_DOWN=3
+    CLOSE_TO_MIDDLE=4
+    CLOSE_FROM_MIDDLE=5
+    CLOSE_ALL=6
+    
+
     def __init__(self, columns: Optional[Sequence[Column]]=None):
         if columns:
             try:
@@ -86,6 +110,9 @@ class Message:
             self.columns = list(columns)
         else:
             self.columns = [Column() for _ in range(Message.MAX_COLUMNS)]
+        self.openmode=self.OPEN_LEFT_RIGHT
+        self.closemode=self.CLOSE_RIGHT_LEFT
+        self.middlemode=self.MIDDLE_ANTICLOCKWISE
 
     def __len__(self) -> int:
         return len(self.columns)
@@ -102,7 +129,11 @@ class Message:
         program_data = bytes([len(self.columns) + 2])
 
         # followed by 3 + 2 NUL's (possible that some of these are the style?)
-        program_data += b'\0\0\0\0\0'
+        # byte 1: middle 0=anti-clock, 1=clock, 2=flash 3=remain
+        # byte 2: (lsb): close 0=r to l,1=l to r, 2=d to u,  3=d to u, 4=to middle, 5=from middle, 6=all off
+        #         (msb) : open  0=l-r, 1=r-l, 2=u-d, 3=d-u, 4=from middle, 5=to middle, 6=all, 7=anticlock, 8=clock
+        
+        program_data += bytes((0x00,self.middlemode & 0xff,(self.closemode & 0x0f)|(self.openmode<<4 & 0xf0) ,0x00,0x00))
 
         # concatenate the bytes of each column - columns are put in backwards
         program_data += b''.join(bytes(x) for x in reversed(self.columns))
