@@ -60,3 +60,20 @@ p = Program((
 d = Device()
 d.program(p)
 ```
+
+For each message, you can define how it opens, what it does once displayed, and what it does when closing.
+Set the Message.openmode, Message.middlemode, and Message.closemode with Message.OPEN, Message.MIDDLE, and Message.CLOSE constants.
+###  Mode Controls
+```python
+from usbfan import Device, Program, TextMessage, Message
+msg=TextMessage("Hello, World!")
+msg.openmode=Message.OPEN_CLOCKWISE
+msg.middlemode=Message.MIDDLE_FLASH
+msg.closemode=Message.CLOSE_UP_DOWN
+
+p = Program((msg,))
+             
+# Open the device and program
+d = Device()
+d.program(p)
+```

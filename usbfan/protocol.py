@@ -123,10 +123,6 @@ class Message:
     def __setitem__(self, key: int, value: Column) -> None:
         self.columns[key] = value
 
-    def dump(self,b):
-        s="".join("%02x%s" % (b[i],"\n" if (i%16)==15 else "") for i in range(len(b)))
-        print(s)
-
     def __bytes__(self) -> bytes:
         # start with the program length
         # note: we always have two NUL pixels at the start and end
@@ -144,7 +140,6 @@ class Message:
 
         # finally, two more NUL's
         program_data += b'\0\0'
-        self.dump(program_data)
 
         # apply subtraction
         program_data = bytes((Program.SUBTRACTION - x) & 0xFF
