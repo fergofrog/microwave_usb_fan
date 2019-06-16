@@ -45,8 +45,6 @@ class CloseTransition(IntEnum):
     ToMiddle = 4
     FromMiddle = 5
     All = 6
-    Clockwise = 7
-    Anticlockwise = 8
 
 
 class Column:
