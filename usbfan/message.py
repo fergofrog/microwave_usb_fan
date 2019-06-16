@@ -2,11 +2,15 @@ from os.path import dirname, join
 
 from PIL import Image, ImageDraw, ImageFont
 
-from .protocol import Colour, Column, Message
+from .protocol import Colour, Column, Message, MessageStyle, OpenTransition, \
+    CloseTransition
 
 
 class TextMessage(Message):
-    def __init__(self, text: str):
+    def __init__(self, text: str,
+                 message_style: MessageStyle=MessageStyle.Anticlockwise,
+                 open_transition: OpenTransition=OpenTransition.LeftRight,
+                 close_transition: CloseTransition=CloseTransition.RightLeft):
         # Open the font, create a blank image and an ImageDraw object
         fnt = ImageFont.truetype(
             join(dirname(__file__), 'fonts', 'Hack-Regular.ttf'))
@@ -27,4 +31,5 @@ class TextMessage(Message):
         columns = [Column(img_data[i:i+Column.PIXELS], Colour.white) for i in
                    range(0, len(img_data), Column.PIXELS)]
 
-        super().__init__(columns)
+        super().__init__(columns, message_style, open_transition,
+                         close_transition)

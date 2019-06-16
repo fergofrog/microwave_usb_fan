@@ -61,18 +61,31 @@ d = Device()
 d.program(p)
 ```
 
-For each message, you can define how it opens, what it does once displayed, and what it does when closing.
-Set the Message.openmode, Message.middlemode, and Message.closemode with Message.OPEN, Message.MIDDLE, and Message.CLOSE constants.
 ###  Mode Controls
-```python
-from usbfan import Device, Program, TextMessage, Message
-msg=TextMessage("Hello, World!")
-msg.openmode=Message.OPEN_CLOCKWISE
-msg.middlemode=Message.MIDDLE_FLASH
-msg.closemode=Message.CLOSE_UP_DOWN
+For each message, you can define how it opens, what it does once displayed, and
+what it does when closing.
 
-p = Program((msg,))
-             
+```python
+from usbfan import Colour, Column, Device, Message, Program, TextMessage, \
+    MessageStyle, OpenTransition, CloseTransition
+
+# We can cycle the rainbow here and fill all 144 columns
+rainbow_colours = [Colour.red, Colour.yellow, Colour.green,
+                   Colour.cyan, Colour.blue, Colour.magenta]
+rainbow = [Column([True] * 11,
+                  rainbow_colours[i % len(rainbow_colours)])
+           for i in range(Message.MAX_COLUMNS)]
+p = Program((
+    TextMessage("Here comes the rainbow!",
+                message_style=MessageStyle.Flash,
+                open_transition=OpenTransition.DownUp,
+                close_transition=CloseTransition.DownUp),
+    Message(rainbow,
+            message_style=MessageStyle.Clockwise,
+            open_transition=OpenTransition.FromMiddle,
+            close_transition=CloseTransition.ToMiddle),
+))
+
 # Open the device and program
 d = Device()
 d.program(p)

@@ -18,6 +18,37 @@ class Colour(IntEnum):
     white = 0b11100000_00000000
 
 
+class MessageStyle(IntEnum):
+    Anticlockwise = 0
+    Clockwise = 1
+    Flash = 2
+    Remain = 3
+
+
+class OpenTransition(IntEnum):
+    LeftRight = 0
+    RightLeft = 1
+    UpDown = 2
+    DownUp = 3
+    FromMiddle = 4
+    ToMiddle = 5
+    All = 6
+    Anticlockwise = 7
+    Clockwise = 8
+
+
+class CloseTransition(IntEnum):
+    RightLeft = 0
+    LeftRight = 1
+    DownUp = 2
+    UpDown = 3
+    ToMiddle = 4
+    FromMiddle = 5
+    All = 6
+    Clockwise = 7
+    Anticlockwise = 8
+
+
 class Column:
     PIXELS = 11
 
@@ -68,31 +99,10 @@ class Message:
     MAX_COLUMNS = 144
     COLUMN_GROUPS = 8
 
-    OPEN_LEFT_RIGHT=0
-    OPEN_RIGHT_LEFT=1
-    OPEN_UP_DOWN=2
-    OPEN_DOWN_UP=3
-    OPEN_FROM_MIDDLE=4
-    OPEN_TO_MIDLE=5
-    OPEN_ALL=6
-    OPEN_ANTICLOCKWISE=7
-    OPEN_CLOCKWISE=8
-
-    MIDDLE_ANTICLOCKWISE=0
-    MIDDLE_CLOCKWISE=1
-    MIDDLE_FLASH=2
-    MIDDLE_REMAIN=3
-
-    CLOSE_RIGHT_LEFT=0
-    CLOSE_LEFT_RIGHT=1
-    CLOSE_DOWN_UP=2
-    CLOSE_UP_DOWN=3
-    CLOSE_TO_MIDDLE=4
-    CLOSE_FROM_MIDDLE=5
-    CLOSE_ALL=6
-    
-
-    def __init__(self, columns: Optional[Sequence[Column]]=None):
+    def __init__(self, columns: Optional[Sequence[Column]]=None,
+                 message_style: MessageStyle=MessageStyle.Anticlockwise,
+                 open_transition: OpenTransition=OpenTransition.LeftRight,
+                 close_transition: CloseTransition=CloseTransition.RightLeft):
         if columns:
             try:
                 if not all(isinstance(x, Column) for x in columns):
@@ -110,9 +120,10 @@ class Message:
             self.columns = list(columns)
         else:
             self.columns = [Column() for _ in range(Message.MAX_COLUMNS)]
-        self.openmode=self.OPEN_LEFT_RIGHT
-        self.closemode=self.CLOSE_RIGHT_LEFT
-        self.middlemode=self.MIDDLE_ANTICLOCKWISE
+
+        self.message_style = message_style
+        self.open_transition = open_transition
+        self.close_transition = close_transition
 
     def __len__(self) -> int:
         return len(self.columns)
@@ -128,17 +139,25 @@ class Message:
         # note: we always have two NUL pixels at the start and end
         program_data = bytes([len(self.columns) + 2])
 
-        # followed by 3 + 2 NUL's (possible that some of these are the style?)
-        # byte 1: middle 0=anti-clock, 1=clock, 2=flash 3=remain
-        # byte 2: (lsb): close 0=r to l,1=l to r, 2=d to u,  3=d to u, 4=to middle, 5=from middle, 6=all off
-        #         (msb) : open  0=l-r, 1=r-l, 2=u-d, 3=d-u, 4=from middle, 5=to middle, 6=all, 7=anticlock, 8=clock
-        
-        program_data += bytes((0x00,self.middlemode & 0xff,(self.closemode & 0x0f)|(self.openmode<<4 & 0xf0) ,0x00,0x00))
+        # followed by 1 NUL
+        program_data += b'\0'
+
+        # 1 byte for message style
+        program_data += bytes((self.message_style, ))
+
+        # 1 byte for the open and close transition:
+        # close is the least significant nibble, open is the most significant
+        program_data += bytes(
+            (self.close_transition | (self.open_transition << 4), )
+        )
+
+        # followed by 2 NULs
+        program_data += b'\0\0'
 
         # concatenate the bytes of each column - columns are put in backwards
         program_data += b''.join(bytes(x) for x in reversed(self.columns))
 
-        # finally, two more NUL's
+        # finally, two more NULs
         program_data += b'\0\0'
 
         # apply subtraction

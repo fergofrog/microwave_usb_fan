@@ -4,7 +4,7 @@ from setuptools import setup
 install_requires = [pkg.strip() for pkg in open('requirements.txt').readlines()]
 
 setup(name='microwave-usbfan',
-      version='1.0.1',
+      version='1.1',
       description="Implementation of the Jaycar RGB USB LED fan (GH1031) protocol",
       long_description=open('README.md').read(),
       long_description_content_type='text/markdown',
