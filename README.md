@@ -17,8 +17,8 @@ from usbfan import Device, Program, TextMessage
 
 # A program is made up of a list of Messages
 # A "TextMessage" is a subclass of the generic Message class 
-p = Program((TextMessage("Hello, World!"),
-             TextMessage("How is everyone going?"),))
+p = Program((TextMessage("Hello, World!", colour = Colour.blue ),
+             TextMessage("How is everyone going?", theme = ColourTheme.Ice ),))
              
 # Open the device and program
 d = Device()
@@ -46,8 +46,12 @@ d.program(p)
 from usbfan import Colour, Column, Device, Message, Program, TextMessage
 
 # We can cycle the rainbow here and fill all 144 columns
-rainbow_colours = [Colour.red, Colour.yellow, Colour.green,
-                   Colour.cyan, Colour.blue, Colour.magenta]
+rainbow_colours = [Colour.red, Colour.red, Colour.red, Colour.red,
+                   Colour.yellow, Colour.yellow, Colour.yellow, Colour.yellow, 
+                   Colour.green, Colour.green, Colour.green, Colour.green,
+                   Colour.cyan, Colour.cyan, Colour.cyan, Colour.cyan, 
+                   Colour.blue, Colour.blue, Colour.blue, Colour.blue,
+                   Colour.magenta, Colour.magenta, Colour.magenta, Colour.magenta]
 rainbow = [Column([True] * 11,
                   rainbow_colours[i % len(rainbow_colours)])
            for i in range(Message.MAX_COLUMNS)]
