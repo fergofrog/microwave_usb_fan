@@ -2,6 +2,13 @@ from enum import IntEnum
 from math import floor, log2
 from typing import Iterator, Optional, Sequence, Union
 
+class ColourTheme(IntEnum):
+    single = 0
+    Festive = 1
+    Ice = 2
+    Christmas = 3
+    Fire = 4
+    Rainbow = 5
 
 class Colour(IntEnum):
     # primary
