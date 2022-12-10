@@ -1,0 +1,17 @@
+Terminus Font is licensed under the SIL Open Font License, Version 1.1.
+The license is included as OFL.TXT, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+The font includes two variants of unicode range 2800-28FF, but does not
+support Braille in any way.
+
+The configure files, python and javascript sources are distributed under
+the GNU General Public License version 2.0 or (at your choice) any later
+version.
+
+Terminus Font 4.49.1, Copyright (C) 2020 Dimitar Toshkov Zhekov.
+Report bugs to <dimitar.zhekov@gmail.com>
+
+Thanks to Anton Zinoviev, Tim Allen, Kir Koliushkin, Antonios Galanopoulos
+and everyone else who helped.
+

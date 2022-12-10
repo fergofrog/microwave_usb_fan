@@ -14,9 +14,9 @@ class TextMessage(Message):
                  open_transition: OpenTransition=OpenTransition.LeftRight,
                  close_transition: CloseTransition=CloseTransition.RightLeft):
         # Open the font, create a blank image and an ImageDraw object
-        fnt = ImageFont.truetype(
-            #join(dirname(__file__), 'fonts', '/usr/share/fonts/liberation-mono/LiberationMono-Bold.ttf'))
-            join(dirname(__file__), 'fonts', 'Hack-Regular.ttf'))
+        fnt = ImageFont.load (
+            #join(dirname(__file__), 'fonts', 'Hack-Regular.ttf'))
+            join(dirname(__file__), 'fonts', 'ter-u12n.pil'))
         img = Image.new('RGB', (Message.MAX_COLUMNS, Column.PIXELS))
         d = ImageDraw.Draw(img)
 
@@ -54,23 +54,23 @@ class TextMessage(Message):
                     colours[column] = Colour.red
 
             elif theme == ColourTheme.Christmas:
-                if column % 40 < 10:
+                if column % 48 < 12:
                     colours[column] = Colour.green
-                elif column % 40 < 20:
+                elif column % 48 < 24:
                     colours[column] = Colour.red
-                elif column % 40 < 30:
+                elif column % 48 < 36:
                     colours[column] = Colour.green
                 else:
                     colours[column] = Colour.red
 
             elif theme == ColourTheme.Rainbow:
-                if column % 20 < 4:
+                if column % 30 < 6:
                     colours[column] = Colour.red
-                elif column % 20 < 8:
+                elif column % 30 < 12:
                     colours[column] = Colour.yellow
-                elif column % 20 < 12:
+                elif column % 30 < 18:
                     colours[column] = Colour.green
-                elif column % 20 < 16:
+                elif column % 30 < 24:
                     colours[column] = Colour.cyan
                 else:
                     colours[column] = Colour.blue
