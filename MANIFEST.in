@@ -3,4 +3,6 @@ include setup.py
 include requirements.txt
 recursive-include usbfan *.py
 recursive-include usbfan/fonts *.ttf
+recursive-include usbfan/fonts *.pil
+recursive-include usbfan/fonts *.pbm
 recursive-include tests *.py
