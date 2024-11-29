@@ -4,8 +4,8 @@ from setuptools import setup
 install_requires = [pkg.strip() for pkg in open('requirements.txt').readlines()]
 
 setup(name='microwave-usbfan',
-      version='1.1',
-      description="Implementation of the Jaycar RGB USB LED fan (GH1031) protocol",
+      version='1.2',
+      description="Rebranded UF-211-06RGB USB fans by USTAR (Ruishengda) protocol implementation",
       long_description=open('README.md').read(),
       long_description_content_type='text/markdown',
       url='https://github.com/fergofrog/microwave_usb_fan',

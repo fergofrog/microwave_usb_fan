@@ -1,6 +1,5 @@
 # Micro Wave USB Fan
-This library is a pure Python reimplementation of the Jaycar RGB USB LED fan
-([GH1031](https://www.jaycar.com.au/programmable-usb-fan/p/GH1031)) protocol.
+This library is a pure Python reimplementation of the protocol used by various RGB USB fans based on the fan UF-211-06RGB that was designed by 刘保根 (Liu Baogen) and that is produced by 深圳市瑞声达电子有限公司 (Shenzhen Ruishengda Electronics Co.) as an OEM and also sold by themselves under the USTAR brand.  
 Communication occurs using USB HID reports as a transport. This library uses
 [hidapi](https://pypi.org/project/hidapi/) to do this across Linux, macOS,
 FreeBSD and Windows.
@@ -90,3 +89,18 @@ p = Program((
 d = Device()
 d.program(p)
 ```
+
+# UF-211-06RGB details
+Official Alibaba shop entries: [1](https://www.alibaba.com/product-detail/Factory-Direct-Flexible-USB-Fan-Programmable_1600428130893.html),[2](https://www.alibaba.com/product-detail/Flexible-USB-Message-Fan-RGB-Multicolor_1600428182360.html),[3](https://www.alibaba.com/product-detail/Flexible-USB-Programmable-Message-Fan-Software_60530542736.html),[4](https://www.alibaba.com/product-detail/Patented-USB-Flexible-Program-Led-Message_60488878681.html),[5](https://www.alibaba.com/product-detail/2016-Hot-fashion-best-gifts-dc_60495560842.html),[6](https://www.alibaba.com/product-detail/USB-Programmable-Message-Fan-LED-Messaege_60749056487.html)  
+Power: USB  
+Color: Silver  
+Size: 40 x 0.7 cm; 8.8 cm fan diameter  
+Fan Material: PVC blade & metal neck  
+Certificates: CE/ROHS/EMC/FCC  
+
+[More info](https://github.com/Ventto/pearlfan/issues/11#issuecomment-2508454088)
+
+# Known rebrands 
+
+Jaycar GJ1031  
+Saytay USB LED Fan Message Fan 
