@@ -134,6 +134,19 @@ class Message:
     def __setitem__(self, key: int, value: Column) -> None:
         self.columns[key] = value
 
+    def visualize(self) -> str:
+        num_pixels = self.columns[0].PIXELS
+        lines = [""] * (num_pixels + 3)
+
+        for column in self.columns:
+            for idx, pixel in enumerate(column.pixels):
+                lines[idx] += "#" if pixel else " "
+            lines[num_pixels] += "R" if column.colour & Colour.red > 0 else " "
+            lines[num_pixels + 1] += "G" if column.colour & Colour.green > 0 else " "
+            lines[num_pixels + 2] += "B" if column.colour & Colour.blue > 0 else " "
+        return "\n".join(lines)
+
+
     def __bytes__(self) -> bytes:
         # start with the program length
         # note: we always have two NUL pixels at the start and end
