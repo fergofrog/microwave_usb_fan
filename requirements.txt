@@ -1,1 +1,2 @@
 hidapi
+pyusb>=1.2.1
